@@ -54,7 +54,7 @@ jobs:
       - name: Build website
         run: npm run build
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: dist-files
           path: dist
@@ -65,7 +65,7 @@ jobs:
       - name: Get code
         uses: actions/checkout@v3
       - name: Get build artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: dist-files
           path: ./dist
