@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get code
-        uses: actions/checkout@v3n #
+        uses: actions/checkout@v3 #
       - name: Load & Cache dependencies
         uses: ./.github/actions/cache-deps #  Use the composite action to cache deps action.yaml
       - name: Lint code
@@ -32,7 +32,7 @@ jobs:
         run: npm run test
       - name: Upload test report
         if: failure() && steps.run-tests.outcome == 'failure'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-report
           path: test.json
