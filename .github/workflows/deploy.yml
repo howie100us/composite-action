@@ -68,5 +68,7 @@ jobs:
   information:
     runs-on: ubuntu-latest
     steps:
+      - name: Get code # Checkout the repository
+        uses: actions/checkout@v3 # Use the official checkout action
       - name: Run custom Action
         uses: ./.github/actions/deploy-s3-javascript # Use the JavaScript action to deploy to S3
