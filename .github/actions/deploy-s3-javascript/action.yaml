@@ -1,0 +1,5 @@
+name: 'Deploy to AWS S3'
+description: '  Deploy built website to an AWS S3 bucket using JavaScript action'
+runs:
+  using: 'node16' # Specify Node.js 16 runtime
+  main: 'main.js' # Entry point for the action  
