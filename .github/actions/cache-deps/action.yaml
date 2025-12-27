@@ -8,13 +8,15 @@ inputs:
 outputs: 
   used-cache:
     description: 'Whether the cache was hit (true/false)'
-    value: ${{ steps.install.outputs.cache}} # Correctly reference the cache step's output
+     # We will output the cache hit status correctly from the cache step
+    value: ${{ steps.cache.outputs.cache-hit }}
 
 runs:
   using: composite
   steps:
     - name: Cache dependencies
-      if: ${{ inputs.caching == 'true' }} #  Conditional caching based on input above
+       # Use fromJSON to properly interpret 'true'/'false' as booleans
+      if: ${{ fromJSON(inputs.caching) }} 
       id: cache
       uses: actions/cache@v3
       with:
@@ -25,7 +27,7 @@ runs:
           deps-node-modules-
     - name: Install dependencies
       id: install
-      if: steps.cache.outputs.cache-hit != 'true' || inputs.caching != 'true'  #  Install if cache miss or caching disabled
+      if: ${{ steps.cache.outputs.cache-hit != 'true' || fromJSON(inputs.caching) == false }}
       run: |
         npm ci
         echo "inputs.caching" >> $GITHUB_OUTPUT
