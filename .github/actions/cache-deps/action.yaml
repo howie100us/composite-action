@@ -1,34 +1,39 @@
 name: Get and cache dependencys
-description: Get the code and cache dependencies for faster builds #  Description of the composite action
+description: Get the code and cache dependencies for faster builds
 inputs:  
   caching:  
-    description: 'Whether to cache dependencies' #  Input to control caching behavior
+    description: 'Whether to cache dependencies'
     required: false
     default: 'true'
 outputs: 
   used-cache:
     description: 'Whether the cache was hit (true/false)'
-     # We will output the cache hit status correctly from the cache step
+    # We will output the cache hit status correctly from the cache step
     value: ${{ steps.cache.outputs.cache-hit }}
 
 runs:
   using: composite
   steps:
     - name: Cache dependencies
-       # Use fromJSON to properly interpret 'true'/'false' as booleans
+      # Use fromJSON to properly interpret 'true'/'false' as booleans
       if: ${{ fromJSON(inputs.caching) }} 
       id: cache
       uses: actions/cache@v3
       with:
         path: node_modules
         key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
-        # Add a restore-keys to help with partial hits if necessary
         restore-keys: |
           deps-node-modules-
+          
     - name: Install dependencies
       id: install
+      shell: bash
+      # Condition: Run install if: 
+      # 1. We did not hit the cache (cache.outputs.cache-hit != 'true')
+      # OR
+      # 2. Caching is completely disabled (fromJSON(inputs.caching) == false)
       if: ${{ steps.cache.outputs.cache-hit != 'true' || fromJSON(inputs.caching) == false }}
       run: |
         npm ci
         echo "inputs.caching" >> $GITHUB_OUTPUT
-      shell: bash
+       
