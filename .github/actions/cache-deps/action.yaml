@@ -35,5 +35,4 @@ runs:
       if: ${{ steps.cache.outputs.cache-hit != 'true' || fromJSON(inputs.caching) == false }}
       run: |
         npm ci
-        echo "inputs.caching" >> $GITHUB_OUTPUT
        
