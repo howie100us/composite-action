@@ -13,7 +13,7 @@ jobs:
         id: cache-deps
         uses: ./.github/actions/cache-deps #  Use the composite action to cache deps action.yaml
         with:
-          caching: 'false' #  Disable caching for lint job
+          caching: false #  Disable caching for lint job
       - name: Output Information
         run: |
           echo "Cache used: ${{ steps.cache-deps.outputs.used-cache }}"    
