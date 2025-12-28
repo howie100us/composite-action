@@ -12,6 +12,9 @@ inputs:
     description: 'The folder containing the built website files to deploy'
     required: false
     default: 'dist' # Default distribution folder
+outputs:
+  website-url : # Output the website URL after deployment
+    description: 'The URL of the deployed website'
 runs:
   using: 'node16' # Specify Node.js 16 runtime
   main: 'main.js' # Entry point for the action  

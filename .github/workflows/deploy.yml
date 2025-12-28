@@ -64,6 +64,7 @@ jobs:
       - name: Output contents
         run: ls
       - name: Deploy site
+        id: deploy
         uses: ./.github/actions/deploy-s3-javascript # Use the JavaScript action to deploy to S3
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} # AWS access key from secrets
@@ -72,4 +73,6 @@ jobs:
           bucket-name: hugh-gha-custon-action-hosting # S3 bucket name from secrets
           dist-folder: './dist' # Folder containing built website files
           #region: 'us-east-1' # AWS region (optional, defaults to us-east-1)
-  
+      - name: Deployment Output
+        run: |
+          echo "Deployed website: ${{ steps.deploy.outputs.website-url }}"

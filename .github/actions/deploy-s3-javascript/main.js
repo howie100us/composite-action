@@ -12,7 +12,9 @@ async function run() {
         const s3Uri = `s3://${bucketName}/`;
         exec.exec(`aws s3 sync ${distFolder} ${s3Uri} --region ${region}`);
 
-        core.notice("Logging for S3 deployment logic."); // Placeholder for actual deployment logic
+        const websiteUrl = `http://${bucketName}.s3-website-${region}.amazonaws.com`;
+        core.setOutput('website-url', websiteUrl); // set output variable
+        console.log(`Website deployed to: ${websiteUrl}`);
 
     } catch (error) {
         console.error("Deployment failed:", error);
