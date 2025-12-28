@@ -1,5 +1,17 @@
 name: 'Deploy to AWS S3'
 description: '  Deploy built website to an AWS S3 bucket using JavaScript action'
+inputs:
+  bucket-name:
+    description: 'The name of the S3 bucket to deploy to'
+    required: true
+  region:
+    description: 'The AWS region where the S3 bucket is located'
+    required: false
+    default: 'us-east-1' # Default region
+  dist-folder:
+    description: 'The folder containing the built website files to deploy'
+    required: false
+    default: 'dist' # Default distribution folder
 runs:
   using: 'node16' # Specify Node.js 16 runtime
   main: 'main.js' # Entry point for the action  

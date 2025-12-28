@@ -4,8 +4,16 @@ const exec = require('@actions/exec')
 
 async function run() {
     try{
-        console.log("Deploying to AWS S3...");
+        // get inputs
+        const bucketName = core.getInput('bucket-name', { required: true });
+        const region = core.getInput('region', {required: true });
+        const distFolder = core.getInput('dist-folder', {required: true });
+        // Upload to S3 logic here
+        const s3Uri = `s3://${bucketName}/`;
+        exec.exec(`aws s3 sync ${distFolder} ${s3Uri} --region ${region}`);
+
         core.notice("Logging for S3 deployment logic."); // Placeholder for actual deployment logic
+
     } catch (error) {
         console.error("Deployment failed:", error);
     }
