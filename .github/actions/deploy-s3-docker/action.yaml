@@ -18,7 +18,4 @@ outputs:
 runs:
   using: 'docker' # Specify Docker runtime
   image: 'Dockerfile' # Use Dockerfile in the action directory
-  args:
-    - ${{ inputs.bucket-name }} # Pass bucket name as argument
-    - ${{ inputs.region }} # Pass region as argument
-    - ${{ inputs.dist-folder }} # Pass distribution folder as argument
+  
