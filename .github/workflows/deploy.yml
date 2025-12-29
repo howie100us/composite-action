@@ -51,6 +51,9 @@ jobs:
           name: dist-files
           path: dist
   deploy:
+    permissions: 
+      id-token: write
+      contents: read
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -63,15 +66,17 @@ jobs:
           path: ./dist
       - name: Output contents
         run: ls
+      - name: Get Aws Permissions
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::556617781607:role/GitHubDemo1
+          aws-region: us-east-1
       - name: Deploy site
         id: deploy
         #uses: ./.github/actions/deploy-s3-javascript # Use the JavaScript action to deploy to S3
         uses: ./.github/actions/deploy-s3-docker # Use the Docker action to deploy to S3
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} # AWS access key from secrets
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # AWS secret key from secrets 
         with:
-          bucket-name: hugh-gha-custon-action-hosting # S3 bucket name from secrets
+          bucket-name: gha-open-connect-demo # S3 bucket name from secrets
           dist-folder: './dist' # Folder containing built website files
           #region: 'us-east-1' # AWS region (optional, defaults to us-east-1)
       - name: Deployment Output
